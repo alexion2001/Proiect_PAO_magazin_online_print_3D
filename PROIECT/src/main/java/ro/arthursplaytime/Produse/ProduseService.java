@@ -7,5 +7,6 @@ public interface ProduseService {
     Produse getById(int id);
     void modificarePret(int id, double pret);
 
+    void exceptieId(int id);
 
 }
