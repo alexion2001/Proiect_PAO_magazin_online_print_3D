@@ -11,9 +11,17 @@ public class Imprimante {
         this.nume = nume;
         this.status = "disponibila";
         this.filamente_compatibile = filamente_compatibile;
+        this.dimensiune_pat.put("lungime",L);
+        this.dimensiune_pat.put("latime",l);
+        this.dimensiune_pat.put("inaltime",h);
+    }
+    public Imprimante(String nume, List<Filament> filamente_compatibile, Double L, Double l, Double h, String status) {
+        this.nume = nume;
+        this.filamente_compatibile = filamente_compatibile;
         this. dimensiune_pat.put("lungime",L);
         this. dimensiune_pat.put("latime",l);
         this. dimensiune_pat.put("inaltime",h);
+        this.status = status;
     }
 
     public String getNume() {

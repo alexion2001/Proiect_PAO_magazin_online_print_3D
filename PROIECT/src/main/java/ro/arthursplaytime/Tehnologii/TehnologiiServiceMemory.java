@@ -1,5 +1,6 @@
 package ro.arthursplaytime.Tehnologii;
 
+import ro.arthursplaytime.Clienti.Clienti;
 import ro.arthursplaytime.Produse.Produse;
 
 import java.util.ArrayList;
@@ -52,6 +53,12 @@ public class TehnologiiServiceMemory implements TehnologiiService{
                     imprimante.get(i).setStatus("ocupata");
                 }
         }
+    }
+
+
+    @Override
+    public List<Imprimante> getAll() {
+        return imprimante;
     }
 
 

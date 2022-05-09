@@ -22,4 +22,9 @@ public class ClientiServiceMemory implements ClientiService{
                 .collect(Collectors.toList());
         return clientTel.get(0);
     }
+
+    @Override
+    public List<Clienti> getAll() {
+        return clienti;
+    }
 }

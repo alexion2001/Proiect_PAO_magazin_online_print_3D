@@ -10,12 +10,10 @@ import ro.arthursplaytime.Angajati.AngajatiServiceMemory;
 import ro.arthursplaytime.Clienti.Clienti;
 import ro.arthursplaytime.Clienti.ClientiService;
 import ro.arthursplaytime.Clienti.ClientiServiceMemory;
+import ro.arthursplaytime.Clienti.SingletonClientiServiceCSV;
 import ro.arthursplaytime.Comenzi.*;
 import ro.arthursplaytime.Produse.*;
-import ro.arthursplaytime.Tehnologii.Filament;
-import ro.arthursplaytime.Tehnologii.Imprimante;
-import ro.arthursplaytime.Tehnologii.TehnologiiService;
-import ro.arthursplaytime.Tehnologii.TehnologiiServiceMemory;
+import ro.arthursplaytime.Tehnologii.*;
 
 public class Main {
     public static void main(String[] args){
@@ -60,29 +58,51 @@ public class Main {
 
 
         //adaugare clienti
+
+
         ClientiService clientiService = new ClientiServiceMemory();
-        Clienti client_nou1 = new Clienti("Rotaru","Cristina", "0785212833");
-        clientiService.save(client_nou1);
-        Clienti client_nou2 = new Clienti("dinu","Cristian", "0724702368");
-        clientiService.save(client_nou2);
+
+        SingletonClientiServiceCSV singletonClientiServiceCSV = SingletonClientiServiceCSV.getInstance();
+        ClientiService clientiCitite = singletonClientiServiceCSV.getAllFromCSV();
+
+        for (int i = 0; i < clientiCitite.getAll().size(); i++) {
+            clientiService.save(clientiCitite.getAll().get(i));
+        }
+
+
+//        Clienti client_nou1 = new Clienti("Rotaru","Cristina", "0785212833");
+//        clientiService.save(client_nou1);
+//        Clienti client_nou2 = new Clienti("dinu","Cristian", "0724702368");
+//        clientiService.save(client_nou2);
+
+         singletonClientiServiceCSV.saveInCSV(clientiService.getAll());
 
 
         //filament
         TehnologiiService tehnologiiService = new TehnologiiServiceMemory();
 
+
         Filament filament_nou1 = new Filament("PLA", 200, "alb");
         tehnologiiService.saveFilament(filament_nou1);
 
+
         //imprimante
+
+        SingletonImprimanteServiceCSV singletonImprimanteServiceCSV = SingletonImprimanteServiceCSV.getInstance();
+        TehnologiiService imprCitite = singletonImprimanteServiceCSV.getAllFromCSV();
+
+        for (int i = 0; i < produseCitite.getAll().size(); i++) {
+            produseService.save(produseCitite.getAll().get(i));
+        }
 
         List<Filament> fil_impr1 = new ArrayList<>();
         Filament fil1 = tehnologiiService.getByTip("PLA");
         fil_impr1.add(fil1);
 
-        Imprimante impr_noua1 = new Imprimante("Odis", fil_impr1, 22.0, 50., 35.0);
-        tehnologiiService.saveImprimanta(impr_noua1);
+//        Imprimante impr_noua1 = new Imprimante("Odis", fil_impr1, 22.0, 50., 35.0);
+//        tehnologiiService.saveImprimanta(impr_noua1);
 
-
+        singletonImprimanteServiceCSV.saveInCSV(tehnologiiService.getAll());
 
 
         //adaugare comanda
@@ -191,6 +211,8 @@ public class Main {
 
                     Clienti client_nou = new Clienti(nume_client,prenume_client,tel_client);
                     clientiService.save(client_nou);
+
+                    singletonClientiServiceCSV.saveInCSV(clientiService.getAll());
 
                     break;
 
@@ -302,6 +324,8 @@ public class Main {
                     System.out.println("Numele imprimantei ->");
                     String nume_impr_modif =  comanda.nextLine();
                     tehnologiiService.modificareStatus(nume_impr_modif);
+
+                    singletonImprimanteServiceCSV.saveInCSV(tehnologiiService.getAll());
                     break;
                 case 33:
                     serviceAudit.save("Modificare status comanda");

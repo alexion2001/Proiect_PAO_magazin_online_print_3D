@@ -15,6 +15,14 @@ public class Clienti {
         this.telefon = telefon;
     }
 
+    public Clienti(int id,String nume,String prenume, String telefon) {
+        this.id_counter = id;
+        this.id_client = this.id_counter;
+        this.nume = nume;
+        this.prenume = prenume;
+        this.telefon = telefon;
+    }
+
 
 
     public int getId_client() {
