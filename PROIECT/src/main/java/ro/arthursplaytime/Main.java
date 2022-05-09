@@ -10,10 +10,7 @@ import ro.arthursplaytime.Angajati.AngajatiServiceMemory;
 import ro.arthursplaytime.Clienti.Clienti;
 import ro.arthursplaytime.Clienti.ClientiService;
 import ro.arthursplaytime.Clienti.ClientiServiceMemory;
-import ro.arthursplaytime.Comenzi.Comenzi;
-import ro.arthursplaytime.Comenzi.ComenziCustom;
-import ro.arthursplaytime.Comenzi.ComenziService;
-import ro.arthursplaytime.Comenzi.ComenziServiceMemory;
+import ro.arthursplaytime.Comenzi.*;
 import ro.arthursplaytime.Produse.*;
 import ro.arthursplaytime.Tehnologii.Filament;
 import ro.arthursplaytime.Tehnologii.Imprimante;
@@ -22,14 +19,30 @@ import ro.arthursplaytime.Tehnologii.TehnologiiServiceMemory;
 
 public class Main {
     public static void main(String[] args){
+        ServiceAudit serviceAudit = ServiceAudit.getInstance();
+
+
         ProduseService produseService = new ProduseServiceMemory();
+        SingletonProduseServiceCSV singletonProduseServiceCSV = SingletonProduseServiceCSV.getInstance();
+        ProduseService produseCitite = singletonProduseServiceCSV.getAllFromCSV();
+
+        for (int i = 0; i < produseCitite.getAll().size(); i++) {
+            produseService.save(produseCitite.getAll().get(i));
+        }
+
 
         //adaugare produse
-        Produse produs_nou1 = new ProduseStandard("Lampa","PLA", 100.5, 50.0);
-        produseService.save(produs_nou1);
-        Produse produs_nou2 = new Produse("Cub_puzzle","TPU", 20.25);
-        produseService.save(produs_nou2);
-        Produse produs_nou3 = new Produse("Tablou","PLA", 145.0);
+//        Produse produs_nou1 = new ProduseStandard("Lampa","PLA", 100.5, 50.0);
+//        produseService.save(produs_nou1);
+//        Produse produs_nou2 = new Produse("Cub_puzzle","TPU", 20.25);
+//        produseService.save(produs_nou2);
+//        Produse produs_nou3 = new Produse("Tablou","PLA", 145.0);
+//        produseService.save(produs_nou3);
+
+        singletonProduseServiceCSV.saveInCSV(produseService.getAll());
+
+
+
 
 
         AngajatiService angajatiService = new AngajatiServiceMemory();
@@ -41,10 +54,17 @@ public class Main {
         Angajati angajat_nou2 = new Angajati("Dinu","Cristian", 5000);
         angajatiService.save(angajat_nou2);
 
+
+
+
+
+
         //adaugare clienti
         ClientiService clientiService = new ClientiServiceMemory();
         Clienti client_nou1 = new Clienti("Rotaru","Cristina", "0785212833");
         clientiService.save(client_nou1);
+        Clienti client_nou2 = new Clienti("dinu","Cristian", "0724702368");
+        clientiService.save(client_nou2);
 
 
         //filament
@@ -62,8 +82,22 @@ public class Main {
         Imprimante impr_noua1 = new Imprimante("Odis", fil_impr1, 22.0, 50., 35.0);
         tehnologiiService.saveImprimanta(impr_noua1);
 
+
+
+
         //adaugare comanda
         ComenziService comenziService = new ComenziServiceMemory();
+
+
+        SingletonComenziServiceCSV singletonComenziServiceCSV = SingletonComenziServiceCSV.getInstance();
+        ComenziService comenziCitite = singletonComenziServiceCSV.getAllFromCSV();
+
+        for (int i = 0; i < comenziCitite.getAll().size(); i++) {
+            comenziService.save(comenziCitite.getAll().get(i));
+        }
+
+
+
         List<Produse> produse_comanda1 = new ArrayList<>();
 
         Produse produs_comanda1 = produseService.getById(1);
@@ -74,6 +108,10 @@ public class Main {
 
         Comenzi comanda_noua1 = new Comenzi(1, 1, "25/04/2022", produse_comanda1);
         comenziService.save(comanda_noua1);
+
+
+        singletonComenziServiceCSV.saveInCSV(comenziService.getAll());
+
 
         // meniu interactiv
         Scanner comanda = new Scanner(System.in);
@@ -107,6 +145,7 @@ public class Main {
 
             switch(comanda_finala) {
                 case 11:
+                    serviceAudit.save("Adaugare produs");
                     System.out.println("Ce fel de produs ? 1 - Standard; 2 - Custom ->");
                     int tip = comanda.nextInt();
 
@@ -136,9 +175,11 @@ public class Main {
                         Produse produs_nou = new ProduseCustom( nume_prod ,filament, cost_productie, L,l,h);
                         produseService.save(produs_nou);
                     }
+                    singletonProduseServiceCSV.saveInCSV(produseService.getAll());
                     break;
 
                 case 12:
+                    serviceAudit.save("Adaugare client");
                     System.out.println("Nume ->");
                     String nume_client = comanda.nextLine();
 
@@ -154,6 +195,7 @@ public class Main {
                     break;
 
                 case 13:
+                    serviceAudit.save("Adaugare comanda");
                     System.out.println("Ce fel de comanda ? 1 - Standard; 2 - Custom ->");
                     int tip_comanda = comanda.nextInt();
 
@@ -194,9 +236,11 @@ public class Main {
                         Comenzi comanda_noua = new ComenziCustom(id_client,1,dtf.format(now),produse_comanda,detalii);
                         comenziService.save(comanda_noua);
                     }
+                    singletonComenziServiceCSV.saveInCSV(comenziService.getAll());
                     break;
 
                 case 14:
+                    serviceAudit.save("Adaugare filament");
                     System.out.println("Tip ->");
                     String tip_fil = comanda.nextLine();
 
@@ -212,12 +256,14 @@ public class Main {
                     break;
 
                 case 21:
+                    serviceAudit.save("Interogare produs");
                     System.out.println("Id-ul produsului ->");
                     int id = comanda.nextInt();
                     System.out.println(produseService.getById(id));
                     break;
 
                 case 22:
+                    serviceAudit.save("Interogare client");
                     System.out.println("Telefonul clientului ->");
                     //String tel = comanda.nextLine();
                     String tel = "0785212833";
@@ -225,39 +271,48 @@ public class Main {
                     break;
 
                 case 23:
+                    serviceAudit.save("interogare comanda dupa telefon");
                     System.out.println("Id-ul clientului pt comanda ->");
                     int id_client_com = comanda.nextInt();
                     System.out.println(comenziService.getByIdClient(id_client_com));
                     break;
 
                 case 24:
+                    serviceAudit.save("Interogare comanda dupa data");
                     System.out.println("Data comenzii ->");
                     String data_com = "25/04/2022"; // comanda.nextLine();
                     System.out.println(comenziService.getByData(data_com));
                     break;
                 case 25:
+                    serviceAudit.save("Interogare imprimante");
                     tehnologiiService.getByStatus();
                     break;
                 case 31:
+                    serviceAudit.save("Modificare pret");
                     System.out.println("Id-ul produsului ->");
                     int id_produs_modif =  comanda.nextInt();
                     System.out.println("Noul pret ->");
                     double pret_produs_modif =  comanda.nextDouble();
                     produseService.modificarePret(id_produs_modif,pret_produs_modif);
                     System.out.println(produseService.getById(id_produs_modif));
+                    singletonProduseServiceCSV.saveInCSV(produseService.getAll());
                     break;
                 case 32:
+                    serviceAudit.save("Modificare status imprimanta");
                     System.out.println("Numele imprimantei ->");
                     String nume_impr_modif =  comanda.nextLine();
                     tehnologiiService.modificareStatus(nume_impr_modif);
                     break;
                 case 33:
+                    serviceAudit.save("Modificare status comanda");
                     System.out.println("Data comenzii ->");
                     String data_modif =  comanda.nextLine();
 
                     System.out.println("Id client ->");
                     int id_client_modif =  comanda.nextInt();
                     comenziService.modificareStatus(id_client_modif,data_modif);
+
+                    singletonComenziServiceCSV.saveInCSV(comenziService.getAll());
                     break;
 
 

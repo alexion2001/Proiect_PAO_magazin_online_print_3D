@@ -12,6 +12,11 @@ public class ComenziServiceMemory implements ComenziService {
 
     SortedMap<Integer,Comenzi> comenzi = new TreeMap<Integer, Comenzi>();
 
+    @Override
+    public List<Comenzi> getAll() {
+
+        return comenzi.values().stream().toList();
+    }
 
     @Override
     public void save(Comenzi comanda) {

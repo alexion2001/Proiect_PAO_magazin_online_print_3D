@@ -1,8 +1,9 @@
 package ro.arthursplaytime.Produse;
+import java.io.Serializable;
 import java.util.*;;
 
 
-public class Produse {
+public class Produse implements Serializable {
     private static int id_counter = 0;
     private int id;
     private String nume;
@@ -18,6 +19,23 @@ public class Produse {
         this.tip_filament = tip_filament;
         this.cost_productie = cost_productie;
         this.pret_vanzare = this.cost_productie * 1.5;
+    }
+
+    public Produse(String nume,String tip_filament,Double cost_productie,Double pret_vanzare){
+        this.id = this.id_counter + 1;
+        this.id_counter += 1;
+        this.nume = nume;
+        this.tip_filament = tip_filament;
+        this.cost_productie = cost_productie;
+        this.pret_vanzare = pret_vanzare;
+    }
+
+    public Produse(int id,String nume,String tip_filament,Double cost_productie,Double pret_vanzare){
+        this.id = id;
+        this.nume = nume;
+        this.tip_filament = tip_filament;
+        this.cost_productie = cost_productie;
+        this.pret_vanzare = pret_vanzare;
     }
 
     public int getId() {

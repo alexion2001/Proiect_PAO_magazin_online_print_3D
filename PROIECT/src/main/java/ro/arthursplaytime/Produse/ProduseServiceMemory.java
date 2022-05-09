@@ -32,6 +32,10 @@ public class ProduseServiceMemory implements ProduseService {
         return produseById.get(0);
     }
 
+    @Override
+    public List<Produse> getAll() {
+            return produse;
+    }
 
     @Override
     public void modificarePret(int id, double pret) {

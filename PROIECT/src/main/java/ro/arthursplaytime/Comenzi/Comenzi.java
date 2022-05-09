@@ -21,6 +21,14 @@ public class Comenzi {
         this.status = "nepreluata";
     }
 
+    public Comenzi(int id_client, int id_angajat, String data, List<Produse> produse,String status) {
+        this.id_client = id_client;
+        this.id_angajat = id_angajat;
+        this.data = data;
+        this.produse = produse;
+        this.status = status;
+    }
+
     public int getId_client() {
         return id_client;
     }
