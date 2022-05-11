@@ -1,5 +1,8 @@
 package ro.arthursplaytime;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.*;
 import java.time.format.DateTimeFormatter;
 import java.time.LocalDateTime;
@@ -16,7 +19,7 @@ import ro.arthursplaytime.Produse.*;
 import ro.arthursplaytime.Tehnologii.*;
 
 public class Main {
-    public static void main(String[] args){
+    public static void main(String[] args) throws IOException {
         ServiceAudit serviceAudit = ServiceAudit.getInstance();
 
 
@@ -165,33 +168,35 @@ public class Main {
 
             switch(comanda_finala) {
                 case 11:
+
+                    BufferedReader comanda22 = new BufferedReader(new InputStreamReader(System.in));
                     serviceAudit.save("Adaugare produs");
                     System.out.println("Ce fel de produs ? 1 - Standard; 2 - Custom ->");
-                    int tip = comanda.nextInt();
+                    int tip = Integer.parseInt(comanda22.readLine());
 
                     System.out.println("Nume ->");
-                    String nume_prod = comanda.nextLine();
+                    String nume_prod = comanda22.readLine();
 
                     System.out.println("Tip filament ->");
-                    String filament = comanda.nextLine();
+                    String filament = comanda22.readLine();
 
                     System.out.println("Cost productie ->");
-                    Double cost_productie = comanda.nextDouble();
+                    Double cost_productie = Double.valueOf(comanda22.readLine());
 
 
                     if (tip == 1){
                         System.out.println("Volum ->");
-                        Double volum = comanda.nextDouble();
+                        Double volum = Double.valueOf(comanda22.readLine());
                         Produse produs_nou = new ProduseStandard( nume_prod ,filament, cost_productie, volum);
                         produseService.save(produs_nou);
                     }
                     else if (tip == 2) {
                         System.out.println("Lungime ->");
-                        Double L = comanda.nextDouble();
+                        Double L = Double.valueOf(comanda22.readLine());
                         System.out.println("Latime ->");
-                        Double l = comanda.nextDouble();
+                        Double l = Double.valueOf(comanda22.readLine());
                         System.out.println("Inaltime ->");
-                        Double h = comanda.nextDouble();
+                        Double h = Double.valueOf(comanda22.readLine());
                         Produse produs_nou = new ProduseCustom( nume_prod ,filament, cost_productie, L,l,h);
                         produseService.save(produs_nou);
                     }
@@ -199,15 +204,16 @@ public class Main {
                     break;
 
                 case 12:
+                    BufferedReader comanda23 = new BufferedReader(new InputStreamReader(System.in));
                     serviceAudit.save("Adaugare client");
                     System.out.println("Nume ->");
-                    String nume_client = comanda.nextLine();
+                    String nume_client = comanda23.readLine();
 
                     System.out.println("Prenume ->");
-                    String prenume_client = comanda.nextLine();
+                    String prenume_client = comanda23.readLine();
 
                     System.out.println("Telefon ->");
-                    String tel_client = comanda.nextLine();
+                    String tel_client = comanda23.readLine();
 
                     Clienti client_nou = new Clienti(nume_client,prenume_client,tel_client);
                     clientiService.save(client_nou);
@@ -217,6 +223,7 @@ public class Main {
                     break;
 
                 case 13:
+                    BufferedReader comanda24 = new BufferedReader(new InputStreamReader(System.in));
                     serviceAudit.save("Adaugare comanda");
                     System.out.println("Ce fel de comanda ? 1 - Standard; 2 - Custom ->");
                     int tip_comanda = comanda.nextInt();
@@ -225,14 +232,14 @@ public class Main {
                     // String data, List<Produse> produse
 
                     System.out.println("Id Client ->");
-                    int id_client = comanda.nextInt();
+                    int id_client = Integer.parseInt(comanda24.readLine());
 
                     DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd");
                     LocalDateTime now = LocalDateTime.now();
                     System.out.println(dtf.format(now));
 
                     System.out.println("Id-uri produse ->");
-                    String id_uri_produse ="1 1 2"; //comanda.nextLine();
+                    String id_uri_produse =comanda24.readLine();
                     String[] splited_id = id_uri_produse.split(" ");
 
                     List<Produse> produse_comanda = new ArrayList<>();
@@ -262,15 +269,16 @@ public class Main {
                     break;
 
                 case 14:
+                    BufferedReader comanda25 = new BufferedReader(new InputStreamReader(System.in));
                     serviceAudit.save("Adaugare filament");
                     System.out.println("Tip ->");
-                    String tip_fil = comanda.nextLine();
+                    String tip_fil = comanda25.readLine();
 
                     System.out.println("Temperatura ->");
-                    int temp = comanda.nextInt();
+                    int temp = Integer.parseInt(comanda25.readLine());
 
                     System.out.println("Culoare ->");
-                    String culoare = comanda.nextLine();
+                    String culoare = comanda25.readLine();
 
                     Filament filament_nou = new Filament(tip_fil,temp,culoare);
                     tehnologiiService.saveFilament(filament_nou);
@@ -285,10 +293,10 @@ public class Main {
                     break;
 
                 case 22:
+                    BufferedReader comanda26 = new BufferedReader(new InputStreamReader(System.in));
                     serviceAudit.save("Interogare client");
                     System.out.println("Telefonul clientului ->");
-                    //String tel = comanda.nextLine();
-                    String tel = "0785212833";
+                    String tel = comanda26.readLine();
                     System.out.println(clientiService.getByTelefon(tel));
                     break;
 
@@ -300,9 +308,10 @@ public class Main {
                     break;
 
                 case 24:
+                    BufferedReader comanda27 = new BufferedReader(new InputStreamReader(System.in));
                     serviceAudit.save("Interogare comanda dupa data");
                     System.out.println("Data comenzii ->");
-                    String data_com = "25/04/2022"; // comanda.nextLine();
+                    String data_com = comanda27.readLine();
                     System.out.println(comenziService.getByData(data_com));
                     break;
                 case 25:
@@ -310,30 +319,33 @@ public class Main {
                     tehnologiiService.getByStatus();
                     break;
                 case 31:
+                    BufferedReader comanda31 = new BufferedReader(new InputStreamReader(System.in));
                     serviceAudit.save("Modificare pret");
                     System.out.println("Id-ul produsului ->");
-                    int id_produs_modif =  comanda.nextInt();
+                    int id_produs_modif = Integer.parseInt(comanda31.readLine());
                     System.out.println("Noul pret ->");
-                    double pret_produs_modif =  comanda.nextDouble();
+                    double pret_produs_modif = Double.parseDouble(comanda31.readLine());
                     produseService.modificarePret(id_produs_modif,pret_produs_modif);
                     System.out.println(produseService.getById(id_produs_modif));
                     singletonProduseServiceCSV.saveInCSV(produseService.getAll());
                     break;
                 case 32:
+                    BufferedReader comanda32 = new BufferedReader(new InputStreamReader(System.in));
                     serviceAudit.save("Modificare status imprimanta");
                     System.out.println("Numele imprimantei ->");
-                    String nume_impr_modif =  comanda.nextLine();
+                    String nume_impr_modif =  comanda32.readLine();
                     tehnologiiService.modificareStatus(nume_impr_modif);
 
                     singletonImprimanteServiceCSV.saveInCSV(tehnologiiService.getAll());
                     break;
                 case 33:
+                    BufferedReader comanda33 = new BufferedReader(new InputStreamReader(System.in));
                     serviceAudit.save("Modificare status comanda");
                     System.out.println("Data comenzii ->");
-                    String data_modif =  comanda.nextLine();
+                    String data_modif =  comanda33.readLine();
 
                     System.out.println("Id client ->");
-                    int id_client_modif =  comanda.nextInt();
+                    int id_client_modif = Integer.parseInt(comanda33.readLine());
                     comenziService.modificareStatus(id_client_modif,data_modif);
 
                     singletonComenziServiceCSV.saveInCSV(comenziService.getAll());
@@ -343,6 +355,7 @@ public class Main {
                }
 
             }
+        comanda.close();
 
         }
 

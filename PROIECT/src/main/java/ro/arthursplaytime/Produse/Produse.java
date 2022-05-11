@@ -32,6 +32,7 @@ public class Produse implements Serializable {
 
     public Produse(int id,String nume,String tip_filament,Double cost_productie,Double pret_vanzare){
         this.id = id;
+        this.id_counter += 1;
         this.nume = nume;
         this.tip_filament = tip_filament;
         this.cost_productie = cost_productie;
