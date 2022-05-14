@@ -1,12 +1,12 @@
-package ro.arthursplaytime.Produse;
+package ro.arthursplaytime.produse;
 import java.util.*;
 
-public class ProduseCustom extends Produse {
+public class produseCustom extends produse {
 
     private Hashtable<String, Double> dimensiuni = new Hashtable<String,Double>();
 
-    public ProduseCustom(String nume,String tip_filament,Double cost_productie,Double L, Double l, Double h){
-        super(nume,tip_filament,cost_productie);
+    public produseCustom(String nume, String tipfilament, Double costproductie, Double L, Double l, Double h){
+        super(nume,tipfilament,costproductie);
         this.dimensiuni.put("lungime",L);
         this.dimensiuni.put("latime",l);
         this.dimensiuni.put("inaltime",h);

@@ -1,15 +1,15 @@
-package ro.arthursplaytime.Angajati;
+package ro.arthursplaytime.angajati;
 
-public class Angajati {
+public class angajati {
     private static int id_counter = 0;
-    private int id_angajat;
+    private int idAngajat;
     private  String nume;
     private  String prenume;
     private  int salariu;
 
-    public Angajati(String nume,String prenume, int salariu) {
+    public angajati(String nume, String prenume, int salariu) {
         this.id_counter += 1;
-        this.id_angajat = this.id_counter;
+        this.idAngajat = this.id_counter;
         this.nume = nume;
         this.prenume = prenume;
         this.salariu = salariu;

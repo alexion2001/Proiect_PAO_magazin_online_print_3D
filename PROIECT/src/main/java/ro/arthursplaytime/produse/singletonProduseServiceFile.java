@@ -1,20 +1,20 @@
-package ro.arthursplaytime.Produse;
+package ro.arthursplaytime.produse;
 
 import java.io.*;
 import java.util.List;
 import java.util.Optional;
 
-public class SingletonProduseServiceFile implements ProduseService{
+public class singletonProduseServiceFile implements produseService {
 
     private final File produseFile;
 
-    private static SingletonProduseServiceFile singletonProduseServiceFile = new SingletonProduseServiceFile();
-    public static SingletonProduseServiceFile getInstance(){
+    private static ro.arthursplaytime.produse.singletonProduseServiceFile singletonProduseServiceFile = new singletonProduseServiceFile();
+    public static ro.arthursplaytime.produse.singletonProduseServiceFile getInstance(){
         return singletonProduseServiceFile;
     }
 
 
-    public SingletonProduseServiceFile() {
+    public singletonProduseServiceFile() {
 
         this.produseFile = new File("src/main/resources/produse.csv");
 
@@ -28,7 +28,7 @@ public class SingletonProduseServiceFile implements ProduseService{
     }
 
     @Override
-    public void save(Produse produs) {
+    public void save(produse produs) {
         FileWriter fileWriter = null;
         BufferedWriter bufferedWriter = null;
 
@@ -64,17 +64,17 @@ public class SingletonProduseServiceFile implements ProduseService{
     }
 
     @Override
-    public List<Produse> getAll() {
+    public List<produse> getAll() {
         return null;
     }
 
     @Override
-    public Produse getById(int id) {
+    public produse getById(int id) {
         try{
             FileReader fileReader = new FileReader(produseFile);
             BufferedReader bufferedReader = new BufferedReader(fileReader);
 
-            Optional<Produse> produsOptional = bufferedReader.lines()
+            Optional<produse> produsOptional = bufferedReader.lines()
                     .map(line -> getFromCSV(line))
                     .filter(produs ->produs.getId() == id)
                     .findFirst();
@@ -96,14 +96,14 @@ public class SingletonProduseServiceFile implements ProduseService{
             FileReader fileReader = new FileReader(produseFile);
             BufferedReader bufferedReader = new BufferedReader(fileReader);
 
-            Optional<Produse> produsOptional = bufferedReader.lines()
+            Optional<produse> produsOptional = bufferedReader.lines()
                     .map(line -> getFromCSV(line))
                     .filter(produs ->produs.getId() == id)
                     .findFirst();
 
             if(produsOptional.isPresent()){
-                produsOptional.get().setPret_vanzare(pret);
-                ProduseService produseService = SingletonProduseServiceFile.getInstance();
+                produsOptional.get().setPretVanzare(pret);
+                produseService produseService = ro.arthursplaytime.produse.singletonProduseServiceFile.getInstance();
                 produseService.save(produsOptional.get());
             }
 
@@ -117,28 +117,28 @@ public class SingletonProduseServiceFile implements ProduseService{
     @Override
     public void exceptieId(int id) {
         if (0 < id){
-            throw new ProduseException();
+            throw new produseException();
         }
     }
 
-    private Produse getFromCSV(String line){
+    private produse getFromCSV(String line){
         String[] values = line.split(",");
-        Produse produs = new Produse(Integer.parseInt(values[0]),values[1],values[4],Double.parseDouble(values[2]),Double.parseDouble(values[3]));
+        produse produs = new produse(Integer.parseInt(values[0]),values[1],values[4],Double.parseDouble(values[2]),Double.parseDouble(values[3]));
         return produs;
     }
 
 
-    private  String formatForCSV(Produse produs){
+    private  String formatForCSV(produse produs){
         StringBuilder stringBuilder = new StringBuilder();
         stringBuilder.append(produs.getId());
         stringBuilder.append(",");
         stringBuilder.append(produs.getNume());
         stringBuilder.append(",");
-        stringBuilder.append(produs.getCost_productie());
+        stringBuilder.append(produs.getCostProductie());
         stringBuilder.append(",");
-        stringBuilder.append(produs.getPret_vanzare());
+        stringBuilder.append(produs.getPretVanzare());
         stringBuilder.append(",");
-        stringBuilder.append(produs.getTip_filament());
+        stringBuilder.append(produs.getTipFilament());
         stringBuilder.append("\n");
 
         return  stringBuilder.toString();

@@ -1,23 +1,23 @@
-package ro.arthursplaytime.Clienti;
+package ro.arthursplaytime.clienti;
 
-public class Clienti {
+public class clienti {
     private static int id_counter = 0;
-    private int id_client;
+    private int idClient;
     private  String nume;
     private  String prenume;
     private  String telefon;
 
-    public Clienti(String nume,String prenume, String telefon) {
+    public clienti(String nume, String prenume, String telefon) {
         this.id_counter += 1;
-        this.id_client = this.id_counter;
+        this.idClient = this.id_counter;
         this.nume = nume;
         this.prenume = prenume;
         this.telefon = telefon;
     }
 
-    public Clienti(int id,String nume,String prenume, String telefon) {
+    public clienti(int id, String nume, String prenume, String telefon) {
         this.id_counter = id;
-        this.id_client = this.id_counter;
+        this.idClient = this.id_counter;
         this.nume = nume;
         this.prenume = prenume;
         this.telefon = telefon;
@@ -25,8 +25,8 @@ public class Clienti {
 
 
 
-    public int getId_client() {
-        return id_client;
+    public int getIdClient() {
+        return idClient;
     }
 
     public String getPrenume() {
@@ -57,7 +57,7 @@ public class Clienti {
     @Override
     public String toString() {
         return "Clienti{" +
-                "id_client=" + id_client +
+                "idClient=" + idClient +
                 ", nume='" + nume + '\'' +
                 ", prenume='" + prenume + '\'' +
                 ", telefon='" + telefon + '\'' +

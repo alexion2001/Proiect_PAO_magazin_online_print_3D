@@ -7,25 +7,25 @@ import java.util.*;
 import java.time.format.DateTimeFormatter;
 import java.time.LocalDateTime;
 
-import ro.arthursplaytime.Angajati.Angajati;
-import ro.arthursplaytime.Angajati.AngajatiService;
-import ro.arthursplaytime.Angajati.AngajatiServiceMemory;
-import ro.arthursplaytime.Clienti.Clienti;
-import ro.arthursplaytime.Clienti.ClientiService;
-import ro.arthursplaytime.Clienti.ClientiServiceMemory;
-import ro.arthursplaytime.Clienti.SingletonClientiServiceCSV;
-import ro.arthursplaytime.Comenzi.*;
-import ro.arthursplaytime.Produse.*;
-import ro.arthursplaytime.Tehnologii.*;
+import ro.arthursplaytime.angajati.angajati;
+import ro.arthursplaytime.angajati.angajatiService;
+import ro.arthursplaytime.angajati.angajatiServiceMemory;
+import ro.arthursplaytime.clienti.clienti;
+import ro.arthursplaytime.clienti.clientiService;
+import ro.arthursplaytime.clienti.clientiServiceMemory;
+import ro.arthursplaytime.clienti.singletonClientiServiceCSV;
+import ro.arthursplaytime.comenzi.*;
+import ro.arthursplaytime.produse.*;
+import ro.arthursplaytime.tehnologii.*;
 
 public class Main {
     public static void main(String[] args) throws IOException {
-        ServiceAudit serviceAudit = ServiceAudit.getInstance();
+        serviceAudit serviceAudit = ro.arthursplaytime.serviceAudit.getInstance();
 
 
-        ProduseService produseService = new ProduseServiceMemory();
-        SingletonProduseServiceCSV singletonProduseServiceCSV = SingletonProduseServiceCSV.getInstance();
-        ProduseService produseCitite = singletonProduseServiceCSV.getAllFromCSV();
+        produseService produseService = new produseServiceMemory();
+        singletonProduseServiceCSV singletonProduseServiceCSV = ro.arthursplaytime.produse.singletonProduseServiceCSV.getInstance();
+        ro.arthursplaytime.produse.produseService produseCitite = singletonProduseServiceCSV.getAllFromCSV();
 
         for (int i = 0; i < produseCitite.getAll().size(); i++) {
             produseService.save(produseCitite.getAll().get(i));
@@ -33,11 +33,11 @@ public class Main {
 
 
         //adaugare produse
-//        Produse produs_nou1 = new ProduseStandard("Lampa","PLA", 100.5, 50.0);
+//        produse produs_nou1 = new ProduseStandard("Lampa","PLA", 100.5, 50.0);
 //        produseService.save(produs_nou1);
-//        Produse produs_nou2 = new Produse("Cub_puzzle","TPU", 20.25);
+//        produse produs_nou2 = new produse("Cub_puzzle","TPU", 20.25);
 //        produseService.save(produs_nou2);
-//        Produse produs_nou3 = new Produse("Tablou","PLA", 145.0);
+//        produse produs_nou3 = new produse("Tablou","PLA", 145.0);
 //        produseService.save(produs_nou3);
 
         singletonProduseServiceCSV.saveInCSV(produseService.getAll());
@@ -46,13 +46,13 @@ public class Main {
 
 
 
-        AngajatiService angajatiService = new AngajatiServiceMemory();
+        angajatiService angajatiService = new angajatiServiceMemory();
 
         //adaugare angajati
-        Angajati angajat_nou1 = new Angajati("Silviu","Ana", 2000);
+        angajati angajat_nou1 = new angajati("Silviu","Ana", 2000);
         angajatiService.save(angajat_nou1);
 
-        Angajati angajat_nou2 = new Angajati("Dinu","Cristian", 5000);
+        angajati angajat_nou2 = new angajati("Dinu","Cristian", 5000);
         angajatiService.save(angajat_nou2);
 
 
@@ -63,10 +63,10 @@ public class Main {
         //adaugare clienti
 
 
-        ClientiService clientiService = new ClientiServiceMemory();
+        clientiService clientiService = new clientiServiceMemory();
 
-        SingletonClientiServiceCSV singletonClientiServiceCSV = SingletonClientiServiceCSV.getInstance();
-        ClientiService clientiCitite = singletonClientiServiceCSV.getAllFromCSV();
+        singletonClientiServiceCSV singletonClientiServiceCSV = ro.arthursplaytime.clienti.singletonClientiServiceCSV.getInstance();
+        ro.arthursplaytime.clienti.clientiService clientiCitite = singletonClientiServiceCSV.getAllFromCSV();
 
         for (int i = 0; i < clientiCitite.getAll().size(); i++) {
             clientiService.save(clientiCitite.getAll().get(i));
@@ -82,38 +82,38 @@ public class Main {
 
 
         //filament
-        TehnologiiService tehnologiiService = new TehnologiiServiceMemory();
+        tehnologiiService tehnologiiService = new tehnologiiServiceMemory();
 
 
-        Filament filament_nou1 = new Filament("PLA", 200, "alb");
+        filament filament_nou1 = new filament("PLA", 200, "alb");
         tehnologiiService.saveFilament(filament_nou1);
 
 
         //imprimante
 
-        SingletonImprimanteServiceCSV singletonImprimanteServiceCSV = SingletonImprimanteServiceCSV.getInstance();
-        TehnologiiService imprCitite = singletonImprimanteServiceCSV.getAllFromCSV();
+        singletonImprimanteServiceCSV singletonImprimanteServiceCSV = ro.arthursplaytime.tehnologii.singletonImprimanteServiceCSV.getInstance();
+        ro.arthursplaytime.tehnologii.tehnologiiService imprCitite = singletonImprimanteServiceCSV.getAllFromCSV();
 
         for (int i = 0; i < produseCitite.getAll().size(); i++) {
             produseService.save(produseCitite.getAll().get(i));
         }
 
-        List<Filament> fil_impr1 = new ArrayList<>();
-        Filament fil1 = tehnologiiService.getByTip("PLA");
+        List<filament> fil_impr1 = new ArrayList<>();
+        filament fil1 = tehnologiiService.getByTip("PLA");
         fil_impr1.add(fil1);
 
-//        Imprimante impr_noua1 = new Imprimante("Odis", fil_impr1, 22.0, 50., 35.0);
-//        tehnologiiService.saveImprimanta(impr_noua1);
+        imprimante impr_noua1 = new imprimante("Odis", fil_impr1, 22.0, 50., 35.0);
+        tehnologiiService.saveImprimanta(impr_noua1);
 
         singletonImprimanteServiceCSV.saveInCSV(tehnologiiService.getAll());
 
 
         //adaugare comanda
-        ComenziService comenziService = new ComenziServiceMemory();
+        comenziService comenziService = new comenziServiceMemory();
 
 
-        SingletonComenziServiceCSV singletonComenziServiceCSV = SingletonComenziServiceCSV.getInstance();
-        ComenziService comenziCitite = singletonComenziServiceCSV.getAllFromCSV();
+        singletonComenziServiceCSV singletonComenziServiceCSV = ro.arthursplaytime.comenzi.singletonComenziServiceCSV.getInstance();
+        ro.arthursplaytime.comenzi.comenziService comenziCitite = singletonComenziServiceCSV.getAllFromCSV();
 
         for (int i = 0; i < comenziCitite.getAll().size(); i++) {
             comenziService.save(comenziCitite.getAll().get(i));
@@ -121,15 +121,15 @@ public class Main {
 
 
 
-        List<Produse> produse_comanda1 = new ArrayList<>();
+        List<produse> produse_comanda1 = new ArrayList<>();
 
-        Produse produs_comanda1 = produseService.getById(1);
-        Produse produs_comanda2 = produseService.getById(2);
+        produse produs_comanda1 = produseService.getById(1);
+        produse produs_comanda2 = produseService.getById(2);
 
         produse_comanda1.add(produs_comanda1);
         produse_comanda1.add(produs_comanda2);
 
-        Comenzi comanda_noua1 = new Comenzi(1, 1, "25/04/2022", produse_comanda1);
+        comenzi comanda_noua1 = new comenzi(1, 1, "25/04/2022", produse_comanda1);
         comenziService.save(comanda_noua1);
 
 
@@ -151,7 +151,7 @@ public class Main {
                     comanda2 = comanda.nextInt();
                     break;
                 case 2:
-                    System.out.println("Ce interoghezi ? \n [1 - Produs dupa id ; 2 - Client dupa telefon; 3 - Comanda dupa id client; 4 - Comenzi dupa data; 5 - Imprimante disponibile] \n Comanda ->");
+                    System.out.println("Ce interoghezi ? \n [1 - Produs dupa id ; 2 - Client dupa telefon; 3 - Comanda dupa id client; 4 - comenzi dupa data; 5 - Imprimante disponibile] \n Comanda ->");
                     comanda2 = comanda.nextInt();
                     break;
                 case 3:
@@ -187,7 +187,7 @@ public class Main {
                     if (tip == 1){
                         System.out.println("Volum ->");
                         Double volum = Double.valueOf(comanda22.readLine());
-                        Produse produs_nou = new ProduseStandard( nume_prod ,filament, cost_productie, volum);
+                        produse produs_nou = new produseStandard( nume_prod ,filament, cost_productie, volum);
                         produseService.save(produs_nou);
                     }
                     else if (tip == 2) {
@@ -197,7 +197,7 @@ public class Main {
                         Double l = Double.valueOf(comanda22.readLine());
                         System.out.println("Inaltime ->");
                         Double h = Double.valueOf(comanda22.readLine());
-                        Produse produs_nou = new ProduseCustom( nume_prod ,filament, cost_productie, L,l,h);
+                        produse produs_nou = new produseCustom( nume_prod ,filament, cost_productie, L,l,h);
                         produseService.save(produs_nou);
                     }
                     singletonProduseServiceCSV.saveInCSV(produseService.getAll());
@@ -215,7 +215,7 @@ public class Main {
                     System.out.println("Telefon ->");
                     String tel_client = comanda23.readLine();
 
-                    Clienti client_nou = new Clienti(nume_client,prenume_client,tel_client);
+                    clienti client_nou = new clienti(nume_client,prenume_client,tel_client);
                     clientiService.save(client_nou);
 
                     singletonClientiServiceCSV.saveInCSV(clientiService.getAll());
@@ -229,7 +229,7 @@ public class Main {
                     int tip_comanda = comanda.nextInt();
 
 
-                    // String data, List<Produse> produse
+                    // String data, List<produse> produse
 
                     System.out.println("Id Client ->");
                     int id_client = Integer.parseInt(comanda24.readLine());
@@ -242,11 +242,11 @@ public class Main {
                     String id_uri_produse =comanda24.readLine();
                     String[] splited_id = id_uri_produse.split(" ");
 
-                    List<Produse> produse_comanda = new ArrayList<>();
+                    List<produse> produse_comanda = new ArrayList<>();
                     for(int i = 0; i < splited_id.length; i++) {
 
                             int id_prod =Integer.parseInt(splited_id[i]);
-                            Produse produs_comanda = produseService.getById(id_prod);
+                            produse produs_comanda = produseService.getById(id_prod);
                             produse_comanda.add(produs_comanda);
 
 
@@ -256,13 +256,13 @@ public class Main {
 
 
                     if (tip_comanda == 1){
-                        Comenzi comanda_noua = new Comenzi(id_client,1,dtf.format(now),produse_comanda);
+                        comenzi comanda_noua = new comenzi(id_client,1,dtf.format(now),produse_comanda);
                         comenziService.save(comanda_noua);
                     }
                     else if (tip_comanda == 2) {
                         System.out.println("Detalii comanda ->");
                         String detalii = comanda.nextLine();
-                        Comenzi comanda_noua = new ComenziCustom(id_client,1,dtf.format(now),produse_comanda,detalii);
+                        comenzi comanda_noua = new comenziCustom(id_client,1,dtf.format(now),produse_comanda,detalii);
                         comenziService.save(comanda_noua);
                     }
                     singletonComenziServiceCSV.saveInCSV(comenziService.getAll());
@@ -280,7 +280,7 @@ public class Main {
                     System.out.println("Culoare ->");
                     String culoare = comanda25.readLine();
 
-                    Filament filament_nou = new Filament(tip_fil,temp,culoare);
+                    ro.arthursplaytime.tehnologii.filament filament_nou = new filament(tip_fil,temp,culoare);
                     tehnologiiService.saveFilament(filament_nou);
 
                     break;

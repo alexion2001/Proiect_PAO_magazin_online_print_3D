@@ -1,24 +1,21 @@
-package ro.arthursplaytime.Clienti;
-
-import ro.arthursplaytime.Clienti.Clienti;
-import ro.arthursplaytime.Clienti.ClientiService;
-import ro.arthursplaytime.Clienti.ClientiServiceMemory;
-import ro.arthursplaytime.Clienti.SingletonClientiServiceCSV;
+package ro.arthursplaytime.clienti;
 
 import java.io.*;
 import java.util.List;
 
-public class SingletonClientiServiceCSV {
+public class singletonClientiServiceCSV {
 
     private final File clientiFile;
+    static ro.arthursplaytime.clienti.singletonClientiServiceCSV singletonClientiServiceCSV = null;
 
-    private static SingletonClientiServiceCSV singletonClientiServiceCSV = new SingletonClientiServiceCSV();
-    public static SingletonClientiServiceCSV getInstance(){
+    public static ro.arthursplaytime.clienti.singletonClientiServiceCSV getInstance(){
+        if (singletonClientiServiceCSV == null)
+           singletonClientiServiceCSV = new singletonClientiServiceCSV();
         return singletonClientiServiceCSV;
     }
 
 
-    public SingletonClientiServiceCSV() {
+    private singletonClientiServiceCSV() {
 
         this.clientiFile = new File("src/main/resources/clienti.csv");
 
@@ -31,7 +28,7 @@ public class SingletonClientiServiceCSV {
         }
     }
 
-    public void saveInCSV(List<Clienti> Clienti) {
+    public void saveInCSV(List<clienti> Clienti) {
         FileWriter fileWriter = null;
         BufferedWriter bufferedWriter = null;
 
@@ -71,8 +68,8 @@ public class SingletonClientiServiceCSV {
 
     }
 
-    public ClientiService getAllFromCSV() {
-        ClientiService ClientiService = new ClientiServiceMemory();
+    public clientiService getAllFromCSV() {
+        clientiService ClientiService = new clientiServiceMemory();
         try{
             FileReader fileReader = new FileReader(clientiFile);
             BufferedReader bufferedReader = new BufferedReader(fileReader);
@@ -90,16 +87,16 @@ public class SingletonClientiServiceCSV {
 
     }
 
-    private Clienti getFromCSV(String line){
+    private clienti getFromCSV(String line){
         String[] values = line.split(",");
-        Clienti client = new Clienti(Integer.parseInt(values[0]),values[1],values[2],values[3]);
+        clienti client = new clienti(Integer.parseInt(values[0]),values[1],values[2],values[3]);
         return client;
     }
 
 
-    private  String formatForCSV(Clienti client){
+    private  String formatForCSV(clienti client){
         StringBuilder stringBuilder = new StringBuilder();
-        stringBuilder.append(client.getId_client());
+        stringBuilder.append(client.getIdClient());
         stringBuilder.append(",");
         stringBuilder.append(client.getNume());
         stringBuilder.append(",");

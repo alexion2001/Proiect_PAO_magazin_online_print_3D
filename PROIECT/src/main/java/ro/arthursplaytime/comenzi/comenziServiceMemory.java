@@ -1,43 +1,39 @@
-package ro.arthursplaytime.Comenzi;
+package ro.arthursplaytime.comenzi;
 import java.util.*;
-
-import ro.arthursplaytime.Clienti.Clienti;
-import ro.arthursplaytime.Produse.Produse;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
-public class ComenziServiceMemory implements ComenziService {
+public class comenziServiceMemory implements comenziService {
 
-    SortedMap<Integer,Comenzi> comenzi = new TreeMap<Integer, Comenzi>();
+    SortedMap<Integer, ro.arthursplaytime.comenzi.comenzi> comenzi = new TreeMap<Integer, ro.arthursplaytime.comenzi.comenzi>();
 
     @Override
-    public List<Comenzi> getAll() {
+    public List<ro.arthursplaytime.comenzi.comenzi> getAll() {
 
         return comenzi.values().stream().toList();
     }
 
     @Override
-    public void save(Comenzi comanda) {
-        comenzi.put(comanda.getId_client(), comanda);
+    public void save(ro.arthursplaytime.comenzi.comenzi comanda) {
+        comenzi.put(comanda.getIdClient(), comanda);
     }
 
     @Override
-    public List<Comenzi> getByIdClient(int id) {
+    public List<ro.arthursplaytime.comenzi.comenzi> getByIdClient(int id) {
         //int key = (int)mapElement.getKey();
         //String value = (String)mapElement.getValue();
         //for (Map.Entry<String, Integer> pair : map.entrySet()) {
         //    System.out.println(String.format("Key (name) is: %s, Value (age) is : %s", pair.getKey(), pair.getValue()));
         //}
 
-//        List<Entry<Integer, Comenzi>> comenziById = comenzi.values()
+//        List<Entry<Integer, comenzi>> comenziById = comenzi.values()
 //                .filter((comanda -> comanda.getId_client() == id))
 //                .collect(Collectors.toList());
 
 
-        List<Comenzi> comenziById = new ArrayList<>();
-        for (Map.Entry<Integer,Comenzi> pair : comenzi.entrySet()) {
+        List<ro.arthursplaytime.comenzi.comenzi> comenziById = new ArrayList<>();
+        for (Map.Entry<Integer, ro.arthursplaytime.comenzi.comenzi> pair : comenzi.entrySet()) {
             if(pair.getKey() == id){
                 comenziById.add(pair.getValue());
             }
@@ -48,9 +44,9 @@ public class ComenziServiceMemory implements ComenziService {
     }
 
     @Override
-    public List<Comenzi> getByData(String data) {
-        List<Comenzi>  comenziByData = new ArrayList<>();
-        for (Map.Entry<Integer,Comenzi> pair : comenzi.entrySet()) {
+    public List<ro.arthursplaytime.comenzi.comenzi> getByData(String data) {
+        List<ro.arthursplaytime.comenzi.comenzi>  comenziByData = new ArrayList<>();
+        for (Map.Entry<Integer, ro.arthursplaytime.comenzi.comenzi> pair : comenzi.entrySet()) {
             if(pair.getValue().getData() == data){
                 comenziByData.add(pair.getValue());
             }
@@ -62,7 +58,7 @@ public class ComenziServiceMemory implements ComenziService {
     @Override
     public void modificareStatus(int id_client, String data) {
         for (int i = 0; i < comenzi.size(); i++) {
-            if (comenzi.get(i).getData().equals(data) && comenzi.get(i).getId_client() == id_client)
+            if (comenzi.get(i).getData().equals(data) && comenzi.get(i).getIdClient() == id_client)
                     comenzi.get(i).setStatus("trimisa");
 
         }

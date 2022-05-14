@@ -1,27 +1,26 @@
-package ro.arthursplaytime.Tehnologii;
+package ro.arthursplaytime.tehnologii;
 
-import ro.arthursplaytime.Produse.Produse;
-import ro.arthursplaytime.Tehnologii.Imprimante;
-import ro.arthursplaytime.Tehnologii.TehnologiiService;
-import ro.arthursplaytime.Tehnologii.TehnologiiServiceMemory;
-import ro.arthursplaytime.Tehnologii.SingletonImprimanteServiceCSV;
+import ro.arthursplaytime.clienti.singletonClientiServiceCSV;
 
 import java.io.*;
 import java.util.ArrayList;
-import java.util.Hashtable;
 import java.util.List;
 
-public class SingletonImprimanteServiceCSV {
+public class singletonImprimanteServiceCSV {
 
     private final File imprimanteFile;
 
-    private static SingletonImprimanteServiceCSV singletonImprimanteServiceCSV = new SingletonImprimanteServiceCSV();
-    public static SingletonImprimanteServiceCSV getInstance(){
+
+    static ro.arthursplaytime.tehnologii.singletonImprimanteServiceCSV singletonImprimanteServiceCSV = null;
+
+    public static ro.arthursplaytime.tehnologii.singletonImprimanteServiceCSV getInstance(){
+        if (singletonImprimanteServiceCSV == null)
+            singletonImprimanteServiceCSV = new singletonImprimanteServiceCSV();
         return singletonImprimanteServiceCSV;
     }
 
 
-    public SingletonImprimanteServiceCSV() {
+    private singletonImprimanteServiceCSV() {
 
         this.imprimanteFile = new File("src/main/resources/Imprimante.csv");
 
@@ -34,7 +33,7 @@ public class SingletonImprimanteServiceCSV {
         }
     }
 
-    public void saveInCSV(List<Imprimante> Imprimante) {
+    public void saveInCSV(List<imprimante> Imprimante) {
         FileWriter fileWriter = null;
         BufferedWriter bufferedWriter = null;
 
@@ -74,8 +73,8 @@ public class SingletonImprimanteServiceCSV {
 
     }
 
-    public TehnologiiService getAllFromCSV() {
-        TehnologiiService tehnologiiService = new TehnologiiServiceMemory();
+    public tehnologiiService getAllFromCSV() {
+        tehnologiiService tehnologiiService = new tehnologiiServiceMemory();
         try{
             FileReader fileReader = new FileReader(imprimanteFile);
             BufferedReader bufferedReader = new BufferedReader(fileReader);
@@ -93,46 +92,46 @@ public class SingletonImprimanteServiceCSV {
 
     }
 
-    private Imprimante getFromCSV(String line){
+    private imprimante getFromCSV(String line){
         String[] values = line.split(",");
 
 
         //completeaza in fct de constructor
-        List<Filament> filament = new ArrayList<>();
+        List<filament> filament = new ArrayList<>();
         for (int i = 1; i < values.length - 3; i = i + 3) {
 
-            Filament fil = new Filament(values[i],Integer.parseInt(values[i+1]),values[i+2]);
+            ro.arthursplaytime.tehnologii.filament fil = new filament(values[i],Integer.parseInt(values[i+1]),values[i+2]);
             filament.add(fil);
         }
 
-        Imprimante impr= new Imprimante(values[0],filament,Double.parseDouble(values[2]),Double.parseDouble(values[values.length - 3]),Double.parseDouble(values[values.length - 2]),values[values.length - 1]);
+        imprimante impr= new imprimante(values[0],filament,Double.parseDouble(values[2]),Double.parseDouble(values[values.length - 3]),Double.parseDouble(values[values.length - 2]),values[values.length - 1]);
         return impr;
     }
 
 
 
-    private  String formatForCSV(Imprimante impr){
+    private  String formatForCSV(imprimante impr){
         StringBuilder stringBuilder = new StringBuilder();
         stringBuilder.append(impr.getNume());
 
         StringBuilder stringBuilder2 = new StringBuilder();
-        for (int i = 0; i < impr.getFilamente_compatibile().size(); i++) {
+        for (int i = 0; i < impr.getFilamenteCompatibile().size(); i++) {
             stringBuilder2.append(",");
-            stringBuilder2.append(impr.getFilamente_compatibile().get(i).getTip());
+            stringBuilder2.append(impr.getFilamenteCompatibile().get(i).getTip());
             stringBuilder2.append(",");
-            stringBuilder2.append(impr.getFilamente_compatibile().get(i).getTemperatura_topire());
+            stringBuilder2.append(impr.getFilamenteCompatibile().get(i).getTemperaturaTopire());
             stringBuilder2.append(",");
-            stringBuilder2.append(impr.getFilamente_compatibile().get(i).getCuloare());
+            stringBuilder2.append(impr.getFilamenteCompatibile().get(i).getCuloare());
 
         }
 
         stringBuilder.append(stringBuilder2);
 
-        stringBuilder.append(impr.getDimensiune_pat().get("lungime"));
+        stringBuilder.append(impr.getDimensiunePat().get("lungime"));
         stringBuilder.append(",");
-        stringBuilder.append(impr.getDimensiune_pat().get("latime"));
+        stringBuilder.append(impr.getDimensiunePat().get("latime"));
         stringBuilder.append(",");
-        stringBuilder.append(impr.getDimensiune_pat().get("inaltime"));
+        stringBuilder.append(impr.getDimensiunePat().get("inaltime"));
         stringBuilder.append(",");
         stringBuilder.append(impr.getStatus());
         stringBuilder.append("\n");

@@ -1,13 +1,13 @@
-package ro.arthursplaytime.Tehnologii;
+package ro.arthursplaytime.tehnologii;
 
-public class Filament {
+public class filament {
     private String tip;
-    private int temperatura_topire;
+    private int temperaturaTopire;
     private String culoare;
 
-    public Filament(String tip, int temperatura_topire, String culoare) {
+    public filament(String tip, int temperaturaTopire, String culoare) {
         this.tip = tip;
-        this.temperatura_topire = temperatura_topire;
+        this.temperaturaTopire = temperaturaTopire;
         this.culoare = culoare;
     }
 
@@ -19,12 +19,12 @@ public class Filament {
         this.tip = tip;
     }
 
-    public int getTemperatura_topire() {
-        return temperatura_topire;
+    public int getTemperaturaTopire() {
+        return temperaturaTopire;
     }
 
-    public void setTemperatura_topire(int temperatura_topire) {
-        this.temperatura_topire = temperatura_topire;
+    public void setTemperaturaTopire(int temperaturaTopire) {
+        this.temperaturaTopire = temperaturaTopire;
     }
 
     public String getCuloare() {
@@ -39,7 +39,7 @@ public class Filament {
     public String toString() {
         return "Filament{" +
                 "tip='" + tip + '\'' +
-                ", temperatura_topire=" + temperatura_topire +
+                ", temperaturaTopire=" + temperaturaTopire +
                 ", culoare='" + culoare + '\'' +
                 '}';
     }

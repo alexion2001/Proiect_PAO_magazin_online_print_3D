@@ -1,32 +1,29 @@
-package ro.arthursplaytime.Tehnologii;
-
-import ro.arthursplaytime.Clienti.Clienti;
-import ro.arthursplaytime.Produse.Produse;
+package ro.arthursplaytime.tehnologii;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.*;
 
-public class TehnologiiServiceMemory implements TehnologiiService{
+public class tehnologiiServiceMemory implements tehnologiiService {
 
-    List<Imprimante> imprimante = new ArrayList<>();
-    Set<Filament> filamente = new HashSet<Filament>();
+    List<ro.arthursplaytime.tehnologii.imprimante> imprimante = new ArrayList<>();
+    Set<filament> filamente = new HashSet<filament>();
 
 
     @Override
-    public void saveFilament(Filament filament) {
+    public void saveFilament(filament filament) {
         filamente.add(filament);
     }
 
     @Override
-    public void saveImprimanta(Imprimante imprimanta) {
+    public void saveImprimanta(ro.arthursplaytime.tehnologii.imprimante imprimanta) {
         imprimante.add(imprimanta);
     }
 
     @Override
     public void getByStatus() {
-        List<Imprimante> imprimanteDisponibile = imprimante.stream()
+        List<ro.arthursplaytime.tehnologii.imprimante> imprimanteDisponibile = imprimante.stream()
                 .filter((impr -> impr.getStatus().equals("disponibila")))
                 .collect(Collectors.toList());
 
@@ -34,8 +31,8 @@ public class TehnologiiServiceMemory implements TehnologiiService{
     }
 
     @Override
-    public Filament getByTip(String tip) {
-        List<Filament> filById = filamente.stream()
+    public filament getByTip(String tip) {
+        List<filament> filById = filamente.stream()
                 .filter((fil -> fil.getTip().equals(tip)))
                 .collect(Collectors.toList());
 
@@ -57,7 +54,7 @@ public class TehnologiiServiceMemory implements TehnologiiService{
 
 
     @Override
-    public List<Imprimante> getAll() {
+    public List<ro.arthursplaytime.tehnologii.imprimante> getAll() {
         return imprimante;
     }
 

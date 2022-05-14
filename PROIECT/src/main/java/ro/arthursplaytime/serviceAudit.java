@@ -1,8 +1,5 @@
 package ro.arthursplaytime;
 
-import ro.arthursplaytime.Produse.Produse;
-import ro.arthursplaytime.Produse.SingletonProduseServiceFile;
-
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
@@ -10,17 +7,17 @@ import java.io.IOException;
 import java.sql.Timestamp;
 import java.util.Date;
 
-public class ServiceAudit {
+public class serviceAudit {
 
         private final File auditFile;
 
-        private static ServiceAudit serviceAudit = new ServiceAudit();
-        public static ServiceAudit getInstance(){
+        private static ro.arthursplaytime.serviceAudit serviceAudit = new serviceAudit();
+        public static ro.arthursplaytime.serviceAudit getInstance(){
             return serviceAudit;
         }
 
 
-    public ServiceAudit() {
+    public serviceAudit() {
 
             this.auditFile = new File("src/main/resources/audit.csv");
 

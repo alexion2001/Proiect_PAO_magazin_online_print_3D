@@ -1,20 +1,24 @@
-package ro.arthursplaytime.Produse;
+package ro.arthursplaytime.produse;
+
+import ro.arthursplaytime.clienti.singletonClientiServiceCSV;
 
 import java.io.*;
 import java.util.List;
-import java.util.Optional;
 
-public class SingletonProduseServiceCSV{
+public class singletonProduseServiceCSV {
 
     private final File produseFile;
 
-    private static SingletonProduseServiceCSV singletonProduseServiceCSV = new SingletonProduseServiceCSV();
-    public static SingletonProduseServiceCSV getInstance(){
+    static ro.arthursplaytime.produse.singletonProduseServiceCSV singletonProduseServiceCSV = null;
+
+    public static ro.arthursplaytime.produse.singletonProduseServiceCSV getInstance(){
+        if (singletonProduseServiceCSV == null)
+            singletonProduseServiceCSV = new singletonProduseServiceCSV();
         return singletonProduseServiceCSV;
     }
 
 
-    public SingletonProduseServiceCSV() {
+    private singletonProduseServiceCSV() {
 
         this.produseFile = new File("src/main/resources/produse.csv");
 
@@ -27,7 +31,7 @@ public class SingletonProduseServiceCSV{
         }
     }
 
-    public void saveInCSV(List<Produse> produse) {
+    public void saveInCSV(List<produse> produse) {
         FileWriter fileWriter = null;
         BufferedWriter bufferedWriter = null;
 
@@ -67,8 +71,8 @@ public class SingletonProduseServiceCSV{
 
     }
 
-    public ProduseService getAllFromCSV() {
-        ProduseService produseService = new ProduseServiceMemory();
+    public produseService getAllFromCSV() {
+        produseService produseService = new produseServiceMemory();
         try{
             FileReader fileReader = new FileReader(produseFile);
             BufferedReader bufferedReader = new BufferedReader(fileReader);
@@ -86,24 +90,24 @@ public class SingletonProduseServiceCSV{
 
     }
 
-    private Produse getFromCSV(String line){
+    private produse getFromCSV(String line){
         String[] values = line.split(",");
-        Produse produs = new Produse(Integer.parseInt(values[0]),values[1],values[4],Double.parseDouble(values[2]),Double.parseDouble(values[3]));
+        produse produs = new produse(Integer.parseInt(values[0]),values[1],values[4],Double.parseDouble(values[2]),Double.parseDouble(values[3]));
         return produs;
     }
 
 
-    private  String formatForCSV(Produse produs){
+    private  String formatForCSV(produse produs){
         StringBuilder stringBuilder = new StringBuilder();
         stringBuilder.append(produs.getId());
         stringBuilder.append(",");
         stringBuilder.append(produs.getNume());
         stringBuilder.append(",");
-        stringBuilder.append(produs.getCost_productie());
+        stringBuilder.append(produs.getCostProductie());
         stringBuilder.append(",");
-        stringBuilder.append(produs.getPret_vanzare());
+        stringBuilder.append(produs.getPretVanzare());
         stringBuilder.append(",");
-        stringBuilder.append(produs.getTip_filament());
+        stringBuilder.append(produs.getTipFilament());
         stringBuilder.append("\n");
 
         return  stringBuilder.toString();

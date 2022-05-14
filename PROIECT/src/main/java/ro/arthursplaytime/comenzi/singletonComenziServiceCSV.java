@@ -1,28 +1,28 @@
-package ro.arthursplaytime.Comenzi;
+package ro.arthursplaytime.comenzi;
 
-import ro.arthursplaytime.Comenzi.Comenzi;
-import ro.arthursplaytime.Comenzi.ComenziService;
-import ro.arthursplaytime.Comenzi.ComenziServiceMemory;
-import ro.arthursplaytime.Comenzi.SingletonComenziServiceCSV;
-import ro.arthursplaytime.Produse.Produse;
+import ro.arthursplaytime.clienti.singletonClientiServiceCSV;
+import ro.arthursplaytime.produse.produse;
 
 import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class SingletonComenziServiceCSV {
+public class singletonComenziServiceCSV {
 
     private final File comenziFile;
 
-    private static SingletonComenziServiceCSV singletonComenziServiceCSV = new SingletonComenziServiceCSV();
-    public static SingletonComenziServiceCSV getInstance(){
+    static ro.arthursplaytime.comenzi.singletonComenziServiceCSV singletonComenziServiceCSV = null;
+
+    public static ro.arthursplaytime.comenzi.singletonComenziServiceCSV getInstance(){
+        if (singletonComenziServiceCSV == null)
+            singletonComenziServiceCSV = new singletonComenziServiceCSV();
         return singletonComenziServiceCSV;
     }
 
 
-    public SingletonComenziServiceCSV() {
+    private singletonComenziServiceCSV() {
 
-        this.comenziFile = new File("src/main/resources/Comenzi.csv");
+        this.comenziFile = new File("src/main/resources/comenzi.csv");
 
         if(!comenziFile.exists()){
             try {
@@ -33,7 +33,7 @@ public class SingletonComenziServiceCSV {
         }
     }
 
-    public void saveInCSV(List<Comenzi> comenzi) {
+    public void saveInCSV(List<comenzi> comenzi) {
         FileWriter fileWriter = null;
         BufferedWriter bufferedWriter = null;
 
@@ -74,8 +74,8 @@ public class SingletonComenziServiceCSV {
 
     }
 
-    public ComenziService getAllFromCSV() {
-        ComenziService comenziService = new ComenziServiceMemory();
+    public comenziService getAllFromCSV() {
+        comenziService comenziService = new comenziServiceMemory();
         try{
             FileReader fileReader = new FileReader(comenziFile);
             BufferedReader bufferedReader = new BufferedReader(fileReader);
@@ -93,29 +93,29 @@ public class SingletonComenziServiceCSV {
 
     }
 
-    private Comenzi getFromCSV(String line){
+    private comenzi getFromCSV(String line){
         String[] values = line.split(",");
 
-        List<Produse> produse = new ArrayList<>();
+        List<produse> produse = new ArrayList<>();
 
         //citesc valorile din csv, le transform in produse si le adaug la comanda
         for (int i = 3; i < values.length - 1; i = i + 5) {
 
-            Produse produs = new Produse(Integer.parseInt(values[i]),values[i+1],values[i+2],Double.parseDouble(values[i+3]),Double.parseDouble(values[i+4]));
+            ro.arthursplaytime.produse.produse produs = new produse(Integer.parseInt(values[i]),values[i+1],values[i+2],Double.parseDouble(values[i+3]),Double.parseDouble(values[i+4]));
             produse.add(produs);
         }
 
 
-        Comenzi comanda = new Comenzi(Integer.parseInt(values[0]),Integer.parseInt(values[1]),values[2],produse,values[values.length - 1]);
+        comenzi comanda = new comenzi(Integer.parseInt(values[0]),Integer.parseInt(values[1]),values[2],produse,values[values.length - 1]);
         return comanda;
     }
 
 
-    private  String formatForCSV(Comenzi comanda){
+    private  String formatForCSV(comenzi comanda){
         StringBuilder stringBuilder = new StringBuilder();
-        stringBuilder.append(comanda.getId_client());
+        stringBuilder.append(comanda.getIdClient());
         stringBuilder.append(",");
-        stringBuilder.append(comanda.getId_angajat());
+        stringBuilder.append(comanda.getIdAngajat());
         stringBuilder.append(",");
         stringBuilder.append(comanda.getData());
 
@@ -126,11 +126,11 @@ public class SingletonComenziServiceCSV {
             stringBuilder2.append(",");
             stringBuilder2.append(comanda.getProduse().get(i).getNume());
             stringBuilder2.append(",");
-            stringBuilder2.append(comanda.getProduse().get(i).getTip_filament());
+            stringBuilder2.append(comanda.getProduse().get(i).getTipFilament());
             stringBuilder2.append(",");
-            stringBuilder2.append(comanda.getProduse().get(i).getCost_productie());
+            stringBuilder2.append(comanda.getProduse().get(i).getCostProductie());
             stringBuilder2.append(",");
-            stringBuilder2.append(comanda.getProduse().get(i).getPret_vanzare());
+            stringBuilder2.append(comanda.getProduse().get(i).getPretVanzare());
 
 
         }
