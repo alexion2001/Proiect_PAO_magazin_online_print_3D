@@ -3,29 +3,37 @@ package ro.arthursplaytime;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.sql.SQLException;
 import java.util.*;
 import java.time.format.DateTimeFormatter;
 import java.time.LocalDateTime;
 
-import ro.arthursplaytime.angajati.angajati;
-import ro.arthursplaytime.angajati.angajatiService;
-import ro.arthursplaytime.angajati.angajatiServiceMemory;
-import ro.arthursplaytime.clienti.clienti;
-import ro.arthursplaytime.clienti.clientiService;
-import ro.arthursplaytime.clienti.clientiServiceMemory;
-import ro.arthursplaytime.clienti.singletonClientiServiceCSV;
-import ro.arthursplaytime.comenzi.*;
-import ro.arthursplaytime.produse.*;
-import ro.arthursplaytime.tehnologii.*;
+import ro.arthursplaytime.gui.angajati.angajati;
+import ro.arthursplaytime.gui.angajati.angajatiService;
+import ro.arthursplaytime.gui.angajati.angajatiServiceMemory;
+import ro.arthursplaytime.gui.clienti.clienti;
+import ro.arthursplaytime.gui.clienti.clientiService;
+import ro.arthursplaytime.gui.clienti.clientiServiceMemory;
+import ro.arthursplaytime.gui.clienti.singletonClientiServiceCSV;
+import ro.arthursplaytime.gui.comenzi.*;
+import ro.arthursplaytime.gui.comenzi.*;
+import ro.arthursplaytime.gui.produse.*;
+import ro.arthursplaytime.gui.tehnologii.*;
+import ro.arthursplaytime.gui.produse.*;
+import ro.arthursplaytime.gui.tehnologii.*;
 
 public class Main {
-    public static void main(String[] args) throws IOException {
+     private tehnologiiService tehnologiiService = new tehnologiiServiceDb();
+
+
+    public static void main(String[] args) throws IOException,SQLException {
+
         serviceAudit serviceAudit = ro.arthursplaytime.serviceAudit.getInstance();
 
 
         produseService produseService = new produseServiceMemory();
-        singletonProduseServiceCSV singletonProduseServiceCSV = ro.arthursplaytime.produse.singletonProduseServiceCSV.getInstance();
-        ro.arthursplaytime.produse.produseService produseCitite = singletonProduseServiceCSV.getAllFromCSV();
+        singletonProduseServiceCSV singletonProduseServiceCSV = ro.arthursplaytime.gui.produse.singletonProduseServiceCSV.getInstance();
+        ro.arthursplaytime.gui.produse.produseService produseCitite = singletonProduseServiceCSV.getAllFromCSV();
 
         for (int i = 0; i < produseCitite.getAll().size(); i++) {
             produseService.save(produseCitite.getAll().get(i));
@@ -65,8 +73,8 @@ public class Main {
 
         clientiService clientiService = new clientiServiceMemory();
 
-        singletonClientiServiceCSV singletonClientiServiceCSV = ro.arthursplaytime.clienti.singletonClientiServiceCSV.getInstance();
-        ro.arthursplaytime.clienti.clientiService clientiCitite = singletonClientiServiceCSV.getAllFromCSV();
+        singletonClientiServiceCSV singletonClientiServiceCSV = ro.arthursplaytime.gui.clienti.singletonClientiServiceCSV.getInstance();
+        ro.arthursplaytime.gui.clienti.clientiService clientiCitite = singletonClientiServiceCSV.getAllFromCSV();
 
         for (int i = 0; i < clientiCitite.getAll().size(); i++) {
             clientiService.save(clientiCitite.getAll().get(i));
@@ -82,7 +90,7 @@ public class Main {
 
 
         //filament
-        tehnologiiService tehnologiiService = new tehnologiiServiceMemory();
+        this.tehnologiiService = new tehnologiiServiceDb();
 
 
         filament filament_nou1 = new filament("PLA", 200, "alb");
@@ -91,8 +99,8 @@ public class Main {
 
         //imprimante
 
-        singletonImprimanteServiceCSV singletonImprimanteServiceCSV = ro.arthursplaytime.tehnologii.singletonImprimanteServiceCSV.getInstance();
-        ro.arthursplaytime.tehnologii.tehnologiiService imprCitite = singletonImprimanteServiceCSV.getAllFromCSV();
+        //singletonImprimanteServiceCSV singletonImprimanteServiceCSV = ro.arthursplaytime.gui.tehnologii.singletonImprimanteServiceCSV.getInstance();
+        //ro.arthursplaytime.gui.tehnologii.tehnologiiService imprCitite = singletonImprimanteServiceCSV.getAllFromCSV();
 
         for (int i = 0; i < produseCitite.getAll().size(); i++) {
             produseService.save(produseCitite.getAll().get(i));
@@ -105,15 +113,15 @@ public class Main {
         imprimante impr_noua1 = new imprimante("Odis", fil_impr1, 22.0, 50., 35.0);
         tehnologiiService.saveImprimanta(impr_noua1);
 
-        singletonImprimanteServiceCSV.saveInCSV(tehnologiiService.getAll());
+        //singletonImprimanteServiceCSV.saveInCSV(tehnologiiService.getAll());
 
 
         //adaugare comanda
         comenziService comenziService = new comenziServiceMemory();
 
 
-        singletonComenziServiceCSV singletonComenziServiceCSV = ro.arthursplaytime.comenzi.singletonComenziServiceCSV.getInstance();
-        ro.arthursplaytime.comenzi.comenziService comenziCitite = singletonComenziServiceCSV.getAllFromCSV();
+        singletonComenziServiceCSV singletonComenziServiceCSV = ro.arthursplaytime.gui.comenzi.singletonComenziServiceCSV.getInstance();
+        ro.arthursplaytime.gui.comenzi.comenziService comenziCitite = singletonComenziServiceCSV.getAllFromCSV();
 
         for (int i = 0; i < comenziCitite.getAll().size(); i++) {
             comenziService.save(comenziCitite.getAll().get(i));
@@ -280,7 +288,7 @@ public class Main {
                     System.out.println("Culoare ->");
                     String culoare = comanda25.readLine();
 
-                    ro.arthursplaytime.tehnologii.filament filament_nou = new filament(tip_fil,temp,culoare);
+                    ro.arthursplaytime.gui.tehnologii.filament filament_nou = new filament(tip_fil,temp,culoare);
                     tehnologiiService.saveFilament(filament_nou);
 
                     break;
@@ -336,7 +344,7 @@ public class Main {
                     String nume_impr_modif =  comanda32.readLine();
                     tehnologiiService.modificareStatus(nume_impr_modif);
 
-                    singletonImprimanteServiceCSV.saveInCSV(tehnologiiService.getAll());
+                    //singletonImprimanteServiceCSV.saveInCSV(tehnologiiService.getAll());
                     break;
                 case 33:
                     BufferedReader comanda33 = new BufferedReader(new InputStreamReader(System.in));
